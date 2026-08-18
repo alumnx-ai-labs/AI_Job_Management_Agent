@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Jobs API
+  version: 1.0.0
+  description: Minimal API for listing jobs and creating validated job records.
+servers:
+  - url: http://localhost:8000
+paths:
+  /jobs:
+    get:
+      summary: List jobs
+      responses:
+        '200':
+          description: All persisted jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+    post:
+      summary: Create a job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreate'
+      responses:
+        '201':
+          description: Job created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '422':
+          description: Validation failed due to missing or invalid required fields
+components:
+  schemas:
+    Job:
+      type: object
+      required:
+        - id
+        - title
+        - company
+        - location
+        - work_type
+        - salary
+        - description
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        company:
+          type: string
+        location:
+          type: string
+        work_type:
+          type: string
+        salary:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    JobCreate:
+      type: object
+      required:
+        - title
+        - company
+        - location
+        - work_type
+        - salary
+        - description
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        location:
+          type: string
+        work_type:
+          type: string
+        salary:
+          type: string
+        description:
+          type: string
